@@ -7,15 +7,22 @@ const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const todoAddHandler = (text: string) => {
+    // the function method here is similar to using the spread operator but ensures that we are working with the most recent rendering
     setTodos((prevTodos) => [
       ...prevTodos,
       { id: Math.random().toString(), text: text },
     ]);
   };
+
+  const todoDeleteHandler = (todoId: string) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== todoId);
+    });
+  };
   return (
     <div className="App">
       <NewTodo onAddTodo={todoAddHandler} />
-      <TodoList items={todos} />
+      <TodoList items={todos} todoDeleteHandler={todoDeleteHandler} />
     </div>
   );
 };
